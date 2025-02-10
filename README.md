@@ -1,3 +1,8 @@
+============== Resume Evaluator Explained ==============
+Evaluate your resume and bring you all the relevant jobs to apply for using AI!
+
+
+============== General ============== 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
