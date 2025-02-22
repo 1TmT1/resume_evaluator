@@ -13,25 +13,33 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     
     if (!validateFields.success) return { error: 'Invalid Fields :-(' };
 
-    const { email, password, name } = validateFields.data;
-    
+    const { email: originalEmail, password, name } = validateFields.data;
+    const email = originalEmail.toLowerCase();
+
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) return { error: 'User already exists' };
 
     const hashedPassword = await bcrypt.hash(password, 12);
-
-    await db.user.create({
-        data: {
-            name,
-            email,
-            password: hashedPassword,
-        },
-    });
+    try {
+        await db.user.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword,
+            },
+        });
+    } catch {
+        return { error: 'Failed creating the account, try again later.' };
+    }
 
     const verificationToken = await generateVerificationToken(email);
 
-    await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    try {
+        await sendVerificationEmail(verificationToken.email, verificationToken.token);
+        return { success: 'Email Sent ;-)' };
+    } catch {
+        return { error: 'Error - Try again later.' };
+    }
     
-    return { success: 'Email Sent ;-)' };
 }

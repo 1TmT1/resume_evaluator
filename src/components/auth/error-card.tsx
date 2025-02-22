@@ -7,11 +7,9 @@ export const ErrorCard = () => {
     return (
         <Card className="shadow-md">
             <CardHeader>
-                <div color="red">
-                    <Header label="An error occurred" />
-                </div>
+                <Header label="An error occurred" />
             </CardHeader>
-            <CardFooter>
+            <CardFooter className="flex justify-center items-center">
                 <BackButton label="Login Page" href="/auth/login" />
             </CardFooter>
         </Card>

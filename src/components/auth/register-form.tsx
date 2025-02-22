@@ -37,6 +37,8 @@ export const RegisterForm = () => {
             const res = await register(values);
             setError(res.error || '');
             setSuccess(res.success || '');
+            form.setValue('email', values.email.toLowerCase());
+            form.resetField('password');
         });
     }
 

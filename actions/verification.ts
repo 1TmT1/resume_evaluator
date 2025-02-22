@@ -5,29 +5,33 @@ import { getUserByEmail } from "../data/user";
 import { getVerificationTokenByToken } from "../data/verification-token";
 
 export const emailVerification = async (token: string) => {
-    const existingToken = await getVerificationTokenByToken(token);
+    try {
+        console.log(token);
+        const existingToken = await getVerificationTokenByToken(token);
+        if (!existingToken) return { error: "Token doesn't exist" };
 
-    if (!existingToken) return { error: "Token doesn't exist" };
+        const hasExpired = new Date(existingToken.expires) < new Date();
+        if (hasExpired) return { error: "Token has been expired" };
 
-    const hasExpired = new Date(existingToken.expires) < new Date();
-    if (hasExpired) return { error: "Token has been expired" };
+        const existingUser = await getUserByEmail(existingToken.email);
+        if (!existingUser) return { error: "Email doesn't exist" };
 
-    const existingUser = await getUserByEmail(existingToken.email);
-    if (!existingUser) return { error: "Email doesn't exist" };
+        if (existingUser.emailVerified) return { success: "Email has been verified already" };
 
-    if (existingUser.emailVerified) return { success: "Email has been verified already" };
+        await db.user.update({
+            where: { id: existingUser.id },
+            data: {
+                emailVerified: new Date(),
+                email: existingToken.email,
+            }
+        });
 
-    await db.user.update({
-        where: { id: existingUser.id },
-        data: {
-            emailVerified: new Date(),
-            email: existingToken.email,
-        }
-    });
+        await db.verificationToken.delete({
+            where: { id: existingToken.id },
+        });
 
-    await db.verificationToken.delete({
-        where: { id: existingUser.id },
-    });
-
-    return { success: "Account is active and ready! ==>" };
+        return { success: "Account is active and ready! ==>" };
+    } catch {
+        return { error: "Error occurred..." };
+    }
 }

@@ -8,11 +8,22 @@ export const publicRoutes = [
 ];
 
 /**
+ * Protected routes only visible to authenticated and registered users
+ * @type {string[]}
+ */
+export const protectedRoutes = [
+    '/dashboard',
+    '/api/file-key',
+]
+
+/**
  * Routes related to authentication - will redirect to dashboard if logged in already.
  * @type {string[]}
  */
 export const authRoutes = [
     '/auth/login',
+    '/auth/forgot-password',
+    '/auth/new-password',
     '/auth/register',
     '/auth/error'
 ];
