@@ -38,6 +38,10 @@ jobs:
               working-directory: ./resume_evaluator
               run: npm audit --production --audit-level=moderate
             
+            - name: Generate Prisma
+              working-directory: ./resume_evaluator
+              run: npm run db:deploy
+
             - name: Build Next.JS app
               working-directory: ./resume_evaluator
               run: npm run build
