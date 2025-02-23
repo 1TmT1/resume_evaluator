@@ -74,8 +74,8 @@ export const GetJobs = ({ jobTitle, location }: getJobsProps) => {
                 {jobs.length === 0 ? 'Find Jobs' : 'Close Jobs'}
             </Button>
             { isLoading && 
-                <div className="flex justify-center items-center mt-8 relative">
-                    <GridLoader className="relative z-20" color="white" speedMultiplier={0.6} />
+                <div className="flex justify-center items-center mt-8">
+                    <GridLoader color="white" />
                 </div> 
             }
             <div className="overflow-y-auto overflow-x-hidden custom-scrollbar mt-4">

@@ -1,0 +1,45 @@
+FROM node:23-alpine AS base
+
+################################
+#  install all node packages   #
+################################
+
+FROM base AS dependencies
+
+WORKDIR /app
+COPY ./resume_evaluator/package.json ./resume_evaluator/yarn.lock* ./
+RUN yarn install
+
+########################################
+# setup docker image for Next.JS build #
+########################################
+
+FROM base AS build
+
+WORKDIR /app
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY ./resume_evaluator .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN yarn run db:deploy && yarn run build
+
+###################################################################
+# setup docker image to save the build, static and run the server #
+###################################################################
+
+FROM base AS runner
+
+WORKDIR /app
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    HOSTNAME="0.0.0.0"
+
+COPY --from=build /app/public ./public
+
+RUN mkdir .next
+
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+
+CMD ["node", "server.js"]
