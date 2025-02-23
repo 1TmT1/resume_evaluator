@@ -1,0 +1,73 @@
+name: Unified CI Pipeline
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    # Next.JS Job
+    NextJS:
+        name: Next.JS CI
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+            
+            - name: Install dependencies
+              working-directory: ./resume_evaluator
+              run: npm install
+            
+            - name: Run tests
+              working-directory: ./resume_evaluator
+              run: npm run test
+            
+            - name: Lint code
+              working-directory: ./resume_evaluator
+              run: npm run lint
+            
+            - name: Security audit
+              working-directory: ./resume_evaluator
+              run: npm audit --production --audit-level=moderate
+            
+            - name: Generate Prisma
+              working-directory: ./resume_evaluator
+              run: npm run db:deploy
+
+            - name: Build Next.JS app
+              working-directory: ./resume_evaluator
+              run: npm run build
+
+    ############################ 
+    # Activate in later stages #
+    ############################
+    # CodeQL security scan
+    # codeQL-scan:
+    #     name: CodeQL security scan
+    #     runs-on: ubuntu-latest
+    #     permissions:
+    #         actions: read
+    #         contents: read
+    #         security-events: write
+
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v4
+
+    #         - name: Initialize CodeQL
+    #           uses: github/codeql-action/init@v3
+    #           with:
+    #             languages: python, go, javascript-typescript
+            
+    #         - name: Run CodeQL analysis
+    #           uses: github/codeql-action/analyze@v3
+    #           with:
+    #             category: "Security"
