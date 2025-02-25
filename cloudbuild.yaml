@@ -1,6 +1,6 @@
 steps:
   - id: "docker-build"
-    timeout: 250s
+    timeout: 500s
     name: "gcr.io/cloud-builders/docker"
     args: ["build", "-f", "./Dockerfile.prod", "-t", "me-west1-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/resume-evaluator-prod", '.']
 

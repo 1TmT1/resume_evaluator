@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PuffLoader } from "react-spinners";
 
