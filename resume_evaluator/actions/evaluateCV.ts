@@ -70,7 +70,8 @@ export const evaluateCV = async (fileCID: string) => {
                                 - Key skills (as a bullet-point list) (best 9, must contain 9 always)
                                 - Best matching job title (only one)
                                 - Country (only one)
-                                - Points to improve in the CV with rephrased suggestions (explain exactly where to improve and why).
+                                - Points to improve in the CV with rephrased suggestions (explain exactly where to improve and why with content related specific to the resume provided).
+                                    - Suggestion: take the text from the resume and change it according to the reason (So the user can cut and copy to his/her resume)
                                 - CV Score (return one number of the ATS score of the resume)
 
                                 Return in this JSON format:
@@ -84,7 +85,7 @@ export const evaluateCV = async (fileCID: string) => {
                                             "reason": "",
                                         }
                                     ],
-                                    "cv_score": ATS_resume_score,
+                                    "cv_score": ATS_resume_score
                                 }`,
                         },
                         { 

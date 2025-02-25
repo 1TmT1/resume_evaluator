@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { GridLoader } from "react-spinners";
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { PuffLoader } from "react-spinners";
 
 const scrollbarStyles = {
     customScrollbar: `
@@ -51,9 +52,13 @@ export const GetJobs = ({ jobTitle, location }: getJobsProps) => {
                 const jobsRes = await res.json();
                 setIsLoading(false);
                 setJobs(jobsRes.message);
+                if (jobsRes.message.length === 0) {
+                    toast.error("Couldn't find jobs");
+                }
             } catch {
                 setIsLoading(false);
                 setJobs([]);
+                toast.error("Couldn't find jobs");
             }
         }
     }
@@ -73,11 +78,9 @@ export const GetJobs = ({ jobTitle, location }: getJobsProps) => {
             <Button onClick={findJobs} disabled={isLoading} className="w-full bg-yellow-500 hover:bg-yellow-300 pt-6 pb-6 select-none">
                 {jobs.length === 0 ? 'Find Jobs' : 'Close Jobs'}
             </Button>
-            { isLoading && 
-                <div className="flex justify-center items-center mt-8">
-                    <GridLoader color="white" />
-                </div> 
-            }
+            <div className="flex justify-center items-center mt-4">
+                <PuffLoader loading={isLoading} color="orange" />
+            </div>
             <div className="overflow-y-auto overflow-x-hidden custom-scrollbar mt-4">
                 <ul className="mr-2">
                     {jobs.map((job, index) => (

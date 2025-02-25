@@ -154,6 +154,7 @@ const Dropzone = ({ isUserUploadedCV, setIsUserUploadedCV, setIsLoading }: Dropz
             }
             setLoading(false);
         } catch {
+            setLoading(false);
             setResponse(JSON.stringify({ error: 'An error occurred...' }));
             toast.error("Failed uploading your CV");
         }
@@ -171,7 +172,7 @@ const Dropzone = ({ isUserUploadedCV, setIsUserUploadedCV, setIsLoading }: Dropz
     }, [opacity]);
 
     return (
-        <form onSubmit={onSubmit} style={{opacity: opacity}} className={`h-full bg-white p-12 m-6 rounded-lg shadow-sm flex flex-col items-center`}>
+        <form onSubmit={onSubmit} style={{opacity: opacity}} className={`h-[calc(100vh-3rem-106px)] max-h-[100vh] bg-white p-12 m-6 rounded-lg shadow-sm flex flex-col items-center`}>
             <div className="h-full flex flex-col justify-center items-center">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Upload Your CV

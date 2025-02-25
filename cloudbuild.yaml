@@ -1,0 +1,13 @@
+steps:
+  - id: "docker-build"
+    timeout: 250s
+    name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-f", "./Dockerfile.prod", "-t", "me-west1-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/resume-evaluator-prod", '.']
+
+  - id: "push-docker-image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "me-west1-docker.pkg.dev/${PROJECT_ID}/${_REPO_NAME}/resume-evaluator-prod"]
+    waitFor: ["docker-build"]
+
+substitutions:
+  _REPO_NAME: resume-evaluator-repo

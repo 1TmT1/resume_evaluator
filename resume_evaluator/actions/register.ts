@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from 'zod';
-import bcrypt from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
 import { db } from '@/lib/db';
 import { RegisterSchema } from "@/schemas";
 import { getUserByEmail } from '../data/user';
@@ -20,7 +20,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     if (existingUser) return { error: 'User already exists' };
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcryptjs.hash(password, 12);
     try {
         await db.user.create({
             data: {
@@ -29,7 +29,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
                 password: hashedPassword,
             },
         });
-    } catch {
+    } catch(err) {
+        console.log(err);
         return { error: 'Failed creating the account, try again later.' };
     }
 

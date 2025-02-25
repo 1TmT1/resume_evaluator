@@ -149,15 +149,11 @@ export const Details = ({ cvDetails, setError }: DetailsProps) => {
         {/* Key Skills Section */}
         <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Your Key Skills & Improvements</h2>
-          {/* <h2 className="text-2xl font-semibold text-gray-800 mb-4">Key Skills</h2> */}
           <ul className="text-gray-700 list-none grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 auto-rows-fr gap-4">
             {cvData?.key_skills ? cvData.key_skills.map((skill, index) => (
-              // index < 3 ?
-              <li key={index} className={`flex justify-center items-center text-center rounded-xl bg-slate-200 hover:bg-slate-300 duration-300 select-none`}>
-                <a href={`https://www.google.com/search?q=${skill}`} className="w-full h-full p-4" target="_blank">{skill}</a>
+              <li key={index} className={`rounded-xl bg-slate-200 hover:bg-slate-300 duration-300 select-none`}>
+                <a href={`https://www.google.com/search?q=${skill}`} className="flex justify-center items-center text-center w-full h-full p-4" target="_blank">{skill}</a>
               </li>
-              //:
-              // <li key={index}>{skill}</li>
             )) : <li key={1}>Error...</li>}
           </ul>
         </div>

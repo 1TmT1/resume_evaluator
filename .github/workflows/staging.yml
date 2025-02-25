@@ -36,7 +36,7 @@ jobs:
               run: npm audit --production --audit-level=moderate
 
             - name: Build Next.JS webapp
-              run: docker build . -t resume-evaluator-prod -f ../Dockerfile.prod
+              run: docker build . -t resume-evaluator-prod -f ./Dockerfile.prod
             
             # Placeholder for Deployment
             # - name: Deploy to Staging

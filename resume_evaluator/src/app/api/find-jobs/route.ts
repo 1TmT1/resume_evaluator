@@ -26,7 +26,12 @@ export async function GET(req: NextRequest) {
                 const company = companyElement.text().replaceAll("\n", "").trim();
                 const location = locationElement.text().replaceAll("\n", "").trim();
                 if (link?.includes('position') && !title.includes('*') && !company.includes('*') && !location.includes('*')) {
-                    jobs.push([link, title, company, location]);
+                    let actualLink = '';
+                    for (let i = 0; i < link.length; i++) {
+                        if (link[i] === '?') break;
+                        actualLink += link[i];
+                    }
+                    jobs.push([actualLink, title, company, location]);
                 }
             });
 
