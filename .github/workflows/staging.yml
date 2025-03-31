@@ -25,7 +25,7 @@ jobs:
               
             - name: Attempt non-breaking fixes
               working-directory: ./resume_evaluator
-              run: npm install
+              run: npm audit fix
 
             - name: Run Node.js tests
               working-directory: ./resume_evaluator
