@@ -73,22 +73,23 @@ jobs:
                   --cpu 1 \
                   --max-instances 2 \
                   --project ${{ secrets.GCP_PROJECT_ID }} \
-                  --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }}
-                  --set-env-vars BASE_PATH=${{ secrets.BASE_PATH }}
-                  --set-env-vars AUTH_URL=${{ secrets.AUTH_URL }}
-                  --set-env-vars AUTH_SECRET=${{ secrets.AUTH_SECRET }}
-                  --set-env-vars GITHUB_CLIENT_ID=${{ secrets.CLIENT_ID_GITHUB }}
-                  --set-env-vars GITHUB_CLIENT_SECRET=${{ secrets.CLIENT_SECRET_GITHUB }}
-                  --set-env-vars GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-                  --set-env-vars GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-                  --set-env-vars LINKEDIN_CLIENT_ID=${{ secrets.LINKEDIN_CLIENT_ID }}
-                  --set-env-vars LINKEDIN_CLIENT_SECRET=${{ secrets.LINKEDIN_CLIENT_SECRET }}
-                  --set-env-vars SMTP_SERVER_USERNAME=${{ secrets.SMTP_SERVER_USERNAME }}
-                  --set-env-vars SMTP_SERVER_PASSWORD=${{ secrets.SMTP_SERVER_PASSWORD }}
-                  --set-env-vars SMTP_SERVER_HOST=${{ secrets.SMTP_SERVER_HOST }}
-                  --set-env-vars GPT_API_KEY=${{ secrets.GPT_API_KEY }}
-                  --set-env-vars PINATA_API_KEY=${{ secrets.PINATA_API_KEY }}
-                  --set-env-vars PINATA_URL=${{ secrets.PINATA_URL }}
+                  --service-account ${{ secrets.GCP_SA }} \
+                  --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }} \
+                  --set-env-vars BASE_PATH=${{ secrets.BASE_PATH }} \
+                  --set-env-vars AUTH_URL=${{ secrets.AUTH_URL }} \
+                  --set-env-vars AUTH_SECRET=${{ secrets.AUTH_SECRET }} \
+                  --set-env-vars GITHUB_CLIENT_ID=${{ secrets.CLIENT_ID_GITHUB }} \
+                  --set-env-vars GITHUB_CLIENT_SECRET=${{ secrets.CLIENT_SECRET_GITHUB }} \
+                  --set-env-vars GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} \
+                  --set-env-vars GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+                  --set-env-vars LINKEDIN_CLIENT_ID=${{ secrets.LINKEDIN_CLIENT_ID }} \
+                  --set-env-vars LINKEDIN_CLIENT_SECRET=${{ secrets.LINKEDIN_CLIENT_SECRET }} \
+                  --set-env-vars SMTP_SERVER_USERNAME=${{ secrets.SMTP_SERVER_USERNAME }} \
+                  --set-env-vars SMTP_SERVER_PASSWORD=${{ secrets.SMTP_SERVER_PASSWORD }} \
+                  --set-env-vars SMTP_SERVER_HOST=${{ secrets.SMTP_SERVER_HOST }} \
+                  --set-env-vars GPT_API_KEY=${{ secrets.GPT_API_KEY }} \
+                  --set-env-vars PINATA_API_KEY=${{ secrets.PINATA_API_KEY }} \
+                  --set-env-vars PINATA_URL=${{ secrets.PINATA_URL }} \
 
     ############################ 
     # Activate in later stages #
