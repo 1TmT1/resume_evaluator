@@ -64,8 +64,9 @@ jobs:
 
             - name: Deploy to Google Cloud Run
               run: |
+                IMAGE_URI="${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/cloud-run-source-deploy/$(basename $GITHUB_REPOSITORY):latest"
                 gcloud run deploy resume-evaluator-prod \
-                  --image "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/cloud-run-source-deploy/$(basename $GITHUB_REPOSITORY):latest" \
+                  --image "$IMAGE_URI" \
                   --platform managed \
                   --region ${{ secrets.GCP_LOCATION }} \
                   --port 8080 \
