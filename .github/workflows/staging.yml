@@ -58,7 +58,7 @@ jobs:
 
             - name: Build and push Docker image
               run: |
-                IMAGE_URI="${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/images/$( basename $GITHUB_REPOSITORY ):latest"
+                IMAGE_URI="$(echo "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/images/$( basename $GITHUB_REPOSITORY ):latest" | tr -d '[:space:]')"
                 docker build . -t "$IMAGE_URI" -f ./Dockerfile.prod
                 docker push "$IMAGE_URI"
 
