@@ -1,0 +1,43 @@
+name: Staging Test Before Deployment
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+
+jobs:
+    # Staging Deployment Job
+    staging_deployment:
+        name: Deploy to staging
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              
+            - name: Install Node.js dependencies
+              working-directory: ./resume_evaluator
+              run: npm install
+              
+            - name: Attempt non-breaking fixes
+              working-directory: ./resume_evaluator
+              run: npm audit fix
+
+            - name: Run Node.js tests
+              working-directory: ./resume_evaluator
+              run: npm run test
+            
+            - name: Lint Node.js code
+              working-directory: ./resume_evaluator
+              run: npm run lint
+
+            - name: Node.js security audit
+              working-directory: ./resume_evaluator
+              run: npm audit --production --audit-level=moderate
+
+            - name: Build Next.JS webapp with Docker
+              run: docker build . -t resume-evaluator-prod -f ./Dockerfile.prod
