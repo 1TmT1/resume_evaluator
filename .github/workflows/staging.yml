@@ -58,14 +58,14 @@ jobs:
 
             - name: Build and push Docker image
               run: |
-                IMAGE_URI="$(echo "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/images/$( basename $GITHUB_REPOSITORY ):latest" | tr -d '[:space:]')"
+                IMAGE_URI="$(echo "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/cloud-run-source-deploy/$(basename $GITHUB_REPOSITORY):latest" | tr -d '[:space:]')"
                 docker build . -t "$IMAGE_URI" -f ./Dockerfile.prod
                 docker push "$IMAGE_URI"
 
             - name: Deploy to Google Cloud Run
               run: |
                 gcloud run deploy resume-evaluator-prod \
-                  --image "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/images/$(basename $GITHUB_REPOSITORY):latest" \
+                  --image "${{ secrets.GCP_LOCATION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/cloud-run-source-deploy/$(basename $GITHUB_REPOSITORY):latest" \
                   --platform managed \
                   --region ${{ secrets.GCP_LOCATION }} \
                   --port 8080 \
