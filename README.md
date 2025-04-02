@@ -12,6 +12,12 @@
   <img src="https://img.shields.io/badge/Google%20Cloud-%234285F4.svg?logo=google-cloud&logoColor=white" alt="Google Cloud" />
 </p>
 
+<p align="center">
+  <a href="https://resume-evaluator-prod-973114442125.europe-west1.run.app" target="_blank">
+    <img src="https://img.shields.io/badge/Live%20Website-Click%20Here-green?style=for-the-badge" alt="Live Website">
+  </a>
+</p>
+
 Resume Evaluator is a project I created which evaluate your resume and give you the following feedback:
 <ul>
   <li>CV ATS score</li>
