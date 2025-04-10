@@ -6,7 +6,7 @@ import { pinata } from "@/lib/pinata";
 export async function POST(req: Request) {
     try {
         const data = await req.formData();
-        const file: any = data.get('file');
+        const file = data.get('file') as File;
         const session = await auth();
         if (session) {
             if (file) {
