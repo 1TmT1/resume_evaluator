@@ -3,7 +3,6 @@
 import React, {Dispatch, FormEvent, SetStateAction, useCallback, useEffect, useState} from "react";
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { Button } from "./button";
-import { pinata } from "@/lib/pinata";
 import toast from "react-hot-toast";
 
 type DropzoneProps = {
@@ -126,18 +125,12 @@ const Dropzone = ({ isUserUploadedCV, setIsUserUploadedCV, setIsLoading }: Dropz
             const isValidFile = await serverFileValidation(file);
 
             if (isValidFile) {
-                const keyRequest = await fetch('/api/file-key');
-                const keyData = await keyRequest.json();
-                const fileData = await pinata.upload.file(file).key(keyData.JWT);
-                
+                const formData = new FormData();
+                formData.append('file', file);
+
                 const setFileCIDRes = await fetch('/api/update-cv', {
                     method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        cid: fileData.cid,
-                    }),
+                    body: formData
                 });
 
                 if (setFileCIDRes) {

@@ -1,21 +1,32 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { setUserFileCID } from "../../../../data/user";
+import { pinata } from "@/lib/pinata";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     try {
-        const data = await req.json();
+        const data = await req.formData();
+        const file: any = data.get('file');
         const session = await auth();
-        const cid = data.cid;
-        const userEmail = session?.user?.email;
-
-        if (cid && userEmail) {
-            const isCIDSet = await setUserFileCID(userEmail, cid);
-            
-            if (isCIDSet) return NextResponse.json({ message: "Successfully changed cid." }, { status: 200 }); 
+        if (session) {
+            if (file) {
+                const fileData = await pinata.upload.file(file);
+                const cid = fileData.cid;
+                const userEmail = session?.user?.email;
+        
+                if (cid && userEmail) {
+                    const isCIDSet = await setUserFileCID(userEmail, cid);
+                    
+                    if (isCIDSet) return NextResponse.json({ message: "Successfully changed cid." }, { status: 200 }); 
+                }
+        
+                return NextResponse.json({ message: "Error occurred..." }, { status: 500 });
+            } else {
+                return NextResponse.json({ message: "Error occurred..." }, { status: 500 });
+            }
+        } else {
+            return NextResponse.json({ message: "Error occurred..." }, { status: 500 });
         }
-
-        return NextResponse.json({ message: "Error occurred..." }, { status: 500 });
     } catch(err) {
         console.log(err);
         return NextResponse.json({ message: "Error occurred..." }, { status: 500 });
